@@ -1,4 +1,7 @@
 package bilijarIgraSimulacija;
+
+import java.awt.*;
+
 public class Lopta {
     double x;
     double y;
@@ -6,6 +9,25 @@ public class Lopta {
     double brzinaY;
     double precnik;
     boolean uRupi;
+    Color boja;
+
+    public Lopta(double x, double y, double brzinaX, double brzinaY, Color boja) {
+        this.x = x;
+        this.y = y;
+        this.brzinaX = brzinaX;
+        this.brzinaY = brzinaY;
+        this.precnik = 0.5;
+        this.uRupi = false;
+        this.boja = boja;
+    }
+
+    public Color getBoja() {
+        return boja;
+    }
+
+    public void setBoja(Color boja) {
+        this.boja = boja;
+    }
 
     public boolean isuRupi() {
         return uRupi;
@@ -55,14 +77,7 @@ public class Lopta {
         this.uRupi = uRupi;
     }
 
-    public Lopta(double x, double y, double brzinaX, double brzinaY) {
-        this.x = x;
-        this.y = y;
-        this.brzinaX = brzinaX;
-        this.brzinaY = brzinaY;
-        this.precnik = 0.5; // Precnik kugle
-        this.uRupi = false;
-    }
+
 
     public void azurirajPoziciju(double deltaVreme) {
         if (!uRupi) {

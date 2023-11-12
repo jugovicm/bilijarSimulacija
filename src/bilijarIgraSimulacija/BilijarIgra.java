@@ -9,19 +9,18 @@ import java.util.List;
 
 public class BilijarIgra {
     public static void main(String[] args) {
-        int sirinaStola = 50;
-        int visinaStola = 20;
+        double sirinaStola = 50.0;
+        double visinaStola = 20.0;
         double deltaVreme = 0.01;
 
         Sto sto = new Sto(sirinaStola, visinaStola);
 
-        // Postavite početno stanje stola i kugli
         postaviPocetnoStanje(sto);
 
-        // Kreirajte JFrame za prikaz igre.
+        // Kreiraj JFrame za prikaz igre.
         JFrame frame = new JFrame("Bilijar Igra");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(sirinaStola * 20, visinaStola * 20);
+        frame.setSize((int) (sirinaStola * 20), (int) (visinaStola * 20));
 
         JPanel panel = new JPanel() {
             @Override
@@ -31,23 +30,23 @@ public class BilijarIgra {
                 int skaliranje = 20;
 
                 g.setColor(Color.GREEN);
-                g.fillRect(0, 0, sirinaStola * skaliranje, visinaStola * skaliranje);
+                g.fillRect(0, 0, (int) (sirinaStola * skaliranje), (int) (visinaStola * skaliranje));
 
                 g.setColor(Color.BLACK);
 
-                // Nacrtajte rupe na odgovarajućim pozicijama
+                // Nacrtaj rupe
                 int rupaPrecnik = 1;
-                g.fillOval(0, 0, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
-                g.fillOval(sirinaStola * skaliranje - rupaPrecnik * skaliranje, 0, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
-                g.fillOval(sirinaStola * skaliranje / 2 - rupaPrecnik * skaliranje / 2, 0, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
-                g.fillOval(0, visinaStola * skaliranje - rupaPrecnik * skaliranje, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
-                g.fillOval(sirinaStola * skaliranje - rupaPrecnik * skaliranje, visinaStola * skaliranje - rupaPrecnik * skaliranje, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
-                g.fillOval(sirinaStola * skaliranje / 2 - rupaPrecnik * skaliranje / 2, visinaStola * skaliranje - rupaPrecnik * skaliranje, rupaPrecnik * skaliranje, rupaPrecnik * skaliranje);
+                g.fillOval(0, 0, (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
+                g.fillOval((int) (sirinaStola * skaliranje - rupaPrecnik * skaliranje), 0, (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
+                g.fillOval((int) (sirinaStola * skaliranje / 2 - rupaPrecnik * skaliranje / 2), 0, (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
+                g.fillOval(0, (int) (visinaStola * skaliranje - rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
+                g.fillOval((int) (sirinaStola * skaliranje - rupaPrecnik * skaliranje), (int) (visinaStola * skaliranje - rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
+                g.fillOval((int) (sirinaStola * skaliranje / 2 - rupaPrecnik * skaliranje / 2), (int) (visinaStola * skaliranje - rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje), (int) (rupaPrecnik * skaliranje));
 
-                g.setColor(Color.RED);
                 List<Lopta> lopte = sto.getLopte();
                 for (Lopta lopta : lopte) {
-                    if (!lopta.isuRupi ()) {
+                    if (!lopta.isuRupi()) {
+                        g.setColor(lopta.getBoja());
                         g.fillOval((int) (lopta.getX() * skaliranje - lopta.getPrecnik() * skaliranje),
                                 (int) (lopta.getY() * skaliranje - lopta.getPrecnik() * skaliranje),
                                 (int) (2 * lopta.getPrecnik() * skaliranje),
@@ -58,7 +57,7 @@ public class BilijarIgra {
             }
         };
 
-        panel.setPreferredSize(new Dimension(sirinaStola * 20, visinaStola * 20));
+        panel.setPreferredSize(new Dimension((int) (sirinaStola * 20), (int) (visinaStola * 20)));
         frame.add(panel);
         frame.pack();
 
@@ -85,7 +84,7 @@ public class BilijarIgra {
 
         Thread cuvanjeStanjaThread = new Thread(() -> {
             while (true) {
-                // Čuvaj trenutno stanje sistema u izlazne fajlove, koristeći isti format kao ulazni fajlovi.
+                // Čuvaj trenutno stanje sistema u izlazne fajlove
                 try {
                     Thread.sleep(60000);
                 } catch (InterruptedException e) {
@@ -98,7 +97,25 @@ public class BilijarIgra {
         frame.setVisible(true);
     }
 
+
     private static void postaviPocetnoStanje(Sto sto) {
-        // Postavite početno stanje stola i kugli.
+        // Postavi početno stanje stola i kugli
+        sto.ucitajPocetnoStanje("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/input.txt");
+        /* TESTIRANJE
+        sto.dodajRupu(1, 1, 1);  // Leva gornja rupa
+        sto.dodajRupu(49, 1, 1);  // Desna gornja rupa
+        sto.dodajRupu(25, 1, 1);  // Srednja gornja rupa
+        sto.dodajRupu(1, 19, 1);  // Leva donja rupa
+        sto.dodajRupu(49, 19, 1);  // Desna donja rupa
+        sto.dodajRupu(25, 19, 1);  // Srednja donja rupa
+
+        sto.dodajLoptu(new Lopta(5, 5, 0.4, -0.02, Color.RED));
+        sto.dodajLoptu(new Lopta(10, 10, -0.3, 0.1, Color.BLUE));
+        sto.dodajLoptu(new Lopta(25, 15, 0, 0, Color.GREEN));
+        sto.dodajLoptu(new Lopta(20, 5, 0, 0, Color.YELLOW));
+        sto.dodajLoptu(new Lopta(35, 10, 0.2, 0.1, Color.ORANGE));
+        sto.dodajLoptu(new Lopta(30, 15, -0.2, -0.4, Color.LIGHT_GRAY));
+        sto.dodajLoptu(new Lopta(15, 10, 0.2, 0.3, Color.WHITE));
+        sto.dodajLoptu(new Lopta(40, 5, -0.3, 0.5, Color.PINK));*/
     }
 }
