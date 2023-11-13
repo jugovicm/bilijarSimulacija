@@ -27,6 +27,7 @@ public class Sto {
         this.visinaStola = visinaStola;
         this.lopte = new ArrayList<>();
         this.rupe = new ArrayList<>();
+
     }
 
     public void dodajLoptu(Lopta lopta) {
@@ -80,18 +81,19 @@ public class Sto {
 
     public void detekcijaSudara() {
         for (Lopta lopta : lopte) {
-            lopta.azurirajPoziciju(0.01); // Ažuriraj poziciju kugle
-            lopta.sudarSaZidom(sirinaStola, visinaStola); // Sudara sa ivicama stola
+            lopta.azurirajPoziciju(0.01);
+            lopta.sudarSaZidom(sirinaStola, visinaStola);
 
             for (Rectangle rupa : rupe) {
                 if (rupa.contains(lopta.x, lopta.y)) {
-                    lopta.upadniURupu(); // Lopta je upala u rupu
+                    lopta.upadniURupu();
                 }
             }
 
             for (Lopta drugaLopta : lopte) {
-                lopta.sudarSaLoptom(drugaLopta); // Sudara između loptica
+                lopta.sudarSaLoptom(drugaLopta);
             }
         }
     }
+
 }

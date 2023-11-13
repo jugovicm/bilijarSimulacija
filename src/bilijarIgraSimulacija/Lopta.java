@@ -9,6 +9,8 @@ public class Lopta {
     double brzinaY;
     double precnik;
     boolean uRupi;
+    private SoundPlayer zvukUpadanja;
+    private SoundPlayer zvukSudara;
     Color boja;
 
     public Lopta(double x, double y, double brzinaX, double brzinaY, Color boja) {
@@ -19,6 +21,9 @@ public class Lopta {
         this.precnik = 0.5;
         this.uRupi = false;
         this.boja = boja;
+
+        zvukUpadanja = new SoundPlayer("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/Pool-ball-being-hit-into-a-pocket.wav");
+        zvukSudara = new SoundPlayer("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/Pool-balls-hitting.wav");
     }
 
     public Color getBoja() {
@@ -90,10 +95,12 @@ public class Lopta {
     public void sudarSaZidom(double sirinaStola, double visinaStola) {
         if (x - precnik < 0 || x + precnik > sirinaStola) {
             brzinaX = -brzinaX; // Odbijanje od leve ili desne ivice stola
+            zvukSudara.play();
         }
 
         if (y - precnik < 0 || y + precnik > visinaStola) {
             brzinaY = -brzinaY; // Odbijanje od gornje ili donje ivice stola
+            zvukSudara.play();
         }
     }
 
@@ -111,7 +118,7 @@ public class Lopta {
             temp = brzinaY;
             brzinaY = drugaLopta.brzinaY;
             drugaLopta.brzinaY = temp;
-
+            zvukSudara.play();
             return true;
         }
 
@@ -124,5 +131,6 @@ public class Lopta {
         brzinaX = 0;
         brzinaY = 0;
         uRupi = true;
+        zvukUpadanja.play();
     }
 }
