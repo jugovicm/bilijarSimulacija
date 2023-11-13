@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class BilijarIgra {
@@ -84,7 +87,9 @@ public class BilijarIgra {
 
         Thread cuvanjeStanjaThread = new Thread(() -> {
             while (true) {
-                // Čuvaj trenutno stanje sistema u izlazne fajlove
+                sto.detekcijaSudara();
+                panel.repaint();
+                cuvajTrenutnoStanje(sto.getLopte(), "D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/output.txt");
                 try {
                     Thread.sleep(60000);
                 } catch (InterruptedException e) {
@@ -95,6 +100,16 @@ public class BilijarIgra {
         cuvanjeStanjaThread.start();
 
         frame.setVisible(true);
+    }
+
+    private static void cuvajTrenutnoStanje(List<Lopta> lopte, String putanjaDoFajla) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(putanjaDoFajla))) {
+            for (Lopta lopta : lopte) {
+                writer.println(lopta.getX() + " " + lopta.getY() + " " + lopta.getBrzinaX() + " " + lopta.getBrzinaY());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
