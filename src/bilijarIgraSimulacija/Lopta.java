@@ -1,6 +1,8 @@
 package bilijarIgraSimulacija;
 
 import java.awt.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Lopta {
     double x;
@@ -22,8 +24,10 @@ public class Lopta {
         this.uRupi = false;
         this.boja = boja;
 
-        zvukUpadanja = new SoundPlayer("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/Pool-ball-being-hit-into-a-pocket.wav");
-        zvukSudara = new SoundPlayer("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/Pool-balls-hitting.wav");
+        // Koristi relativnu putanju za inicijalizaciju zvuka
+        Path basePath = Paths.get("src/bilijarIgraSimulacija");
+        this.zvukUpadanja = new SoundPlayer(basePath.resolve("Pool-ball-being-hit-into-a-pocket.wav").toString());
+        this.zvukSudara = new SoundPlayer(basePath.resolve("Pool-balls-hitting.wav").toString());
     }
 
     public Color getBoja() {

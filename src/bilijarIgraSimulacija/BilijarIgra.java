@@ -1,5 +1,4 @@
-import bilijarIgraSimulacija.Lopta;
-import bilijarIgraSimulacija.Sto;
+package bilijarIgraSimulacija;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class BilijarIgra {
@@ -89,7 +90,8 @@ public class BilijarIgra {
             while (true) {
                 sto.detekcijaSudara();
                 panel.repaint();
-                cuvajTrenutnoStanje(sto.getLopte(), "D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/output.txt");
+                Path outputPath = Paths.get("src/bilijarIgraSimulacija/output.txt");
+                cuvajTrenutnoStanje(sto.getLopte(), outputPath.toString());
                 try {
                     Thread.sleep(60000);
                 } catch (InterruptedException e) {
@@ -115,7 +117,8 @@ public class BilijarIgra {
 
     private static void postaviPocetnoStanje(Sto sto) {
         // Postavi početno stanje stola i kugli
-        sto.ucitajPocetnoStanje("D:/MiJu/bilijarSimulacija/src/bilijarIgraSimulacija/input.txt");
+        Path inputPath = Paths.get("src/bilijarIgraSimulacija/input.txt");
+        sto.ucitajPocetnoStanje(inputPath.toString());
         /* TESTIRANJE
         sto.dodajRupu(1, 1, 1);  // Leva gornja rupa
         sto.dodajRupu(49, 1, 1);  // Desna gornja rupa
